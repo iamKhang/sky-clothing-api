@@ -13,7 +13,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDetail {
-
     @Id
     @UuidGenerator
     @Column(name = "order_detail_id")
@@ -35,6 +34,9 @@ public class OrderDetail {
 
     @Column(name = "discount_percentage")
     private BigDecimal discountPercentage;
+
+    @Column(name = "total_amount")
+    private BigDecimal totalAmount;
 
     @Override
     public String toString() {

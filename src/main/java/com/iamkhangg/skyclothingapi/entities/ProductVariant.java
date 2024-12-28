@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -40,7 +41,22 @@ public class ProductVariant {
     @Column(nullable = false)
     private Integer quantity;
 
+    @Column(name = "sold_quantity")
+    private Integer soldQuantity;
+
     private BigDecimal discountPercentage;
+
+    @Column(name = "created_date")
+    private LocalDate createdDate;
+
+    private Boolean active;
+
+    @Column(name = "new_product")
+    private Boolean newProduct;
+
+    @Column(name = "best_seller")
+    private Boolean bestSeller;
+
 
     @ElementCollection
     @CollectionTable(name = "product_images", joinColumns = @JoinColumn(name = "variant_id"))
