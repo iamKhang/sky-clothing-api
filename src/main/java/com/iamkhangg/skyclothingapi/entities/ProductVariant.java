@@ -4,6 +4,7 @@ import com.iamkhangg.skyclothingapi.enums.Color;
 import com.iamkhangg.skyclothingapi.enums.Size;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -15,6 +16,7 @@ import java.util.Set;
 @Table(name = "product_variants")
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class ProductVariant {
     @Id
     @UuidGenerator
@@ -31,9 +33,6 @@ public class ProductVariant {
     @Column(nullable = false)
     private Color color;
 
-    @Column(nullable = false)
-    private BigDecimal price;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Size size;
@@ -44,6 +43,7 @@ public class ProductVariant {
     @Column(name = "sold_quantity")
     private Integer soldQuantity;
 
+    @Column(name = "discount_percentage")
     private BigDecimal discountPercentage;
 
     @Column(name = "created_date")
@@ -70,7 +70,6 @@ public class ProductVariant {
                 ", product=" + product +
                 ", sku='" + sku + '\'' +
                 ", color=" + color +
-                ", price=" + price +
                 ", size=" + size +
                 ", quantity=" + quantity +
                 ", discountPercentage=" + discountPercentage +
