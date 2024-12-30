@@ -1,13 +1,11 @@
 package com.iamkhangg.skyclothingapi.dtos;
 
-import com.iamkhangg.skyclothingapi.enums.Color;
-import com.iamkhangg.skyclothingapi.enums.Size;
+import java.math.BigDecimal;
+import java.util.Set;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
-import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,9 +13,12 @@ import java.util.Set;
 public class ProductDetailDTO {
     private String productId;
     private String name;
+    private String description;
     private String mainImageUrl;
     private String subImageUrl;
     private String sizeChartUrl;
-    private String description;
-    private List<ProductVariantDTO> variants;
+    private BigDecimal price;
+    private String category;
+    private Set<String> collections;
+    private Set<ProductVariantDTO> variants;
 }

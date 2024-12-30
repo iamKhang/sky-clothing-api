@@ -13,6 +13,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -51,6 +52,10 @@ public class Product {
     @Column(nullable = false)
     private Category category;
 
+    
+    @OneToMany(mappedBy = "product")
+    private Set<ProductVariant> variants;
+    
     @ManyToMany(mappedBy = "products")
     private Set<ProductCollection> collections;
 
