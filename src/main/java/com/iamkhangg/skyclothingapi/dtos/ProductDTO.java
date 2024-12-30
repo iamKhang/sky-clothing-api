@@ -1,7 +1,9 @@
 package com.iamkhangg.skyclothingapi.dtos;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
+import com.iamkhangg.skyclothingapi.enums.Color;
 import com.iamkhangg.skyclothingapi.enums.Status;
 
 import lombok.AllArgsConstructor;
@@ -19,4 +21,5 @@ public class ProductDTO {
     private Status status;
     private BigDecimal price;
     private BigDecimal maxDiscountPercentage;
+    private Set<Color> colors;
 }

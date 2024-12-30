@@ -1,12 +1,15 @@
 package com.iamkhangg.skyclothingapi.converters;
 
 import java.math.BigDecimal;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
 import com.iamkhangg.skyclothingapi.dtos.ProductDTO;
 import com.iamkhangg.skyclothingapi.entities.Product;
 import com.iamkhangg.skyclothingapi.entities.ProductVariant;
+import com.iamkhangg.skyclothingapi.enums.Color;
 
 @Component
 public class ProductConverter {
@@ -17,6 +20,10 @@ public class ProductConverter {
                 .max(BigDecimal::compareTo)
                 .orElse(BigDecimal.ZERO);
 
+        Set<Color> colors = product.getVariants().stream()
+                .map(ProductVariant::getColor)
+                .collect(Collectors.toSet());
+
         return new ProductDTO(
             product.getProductId(),
             product.getName(),
@@ -24,7 +31,8 @@ public class ProductConverter {
             product.getSubImageUrl(),
             product.getStatus(),
             product.getPrice(),
-            maxDiscountPercentage
+            maxDiscountPercentage,
+            colors
         );
     }
 
