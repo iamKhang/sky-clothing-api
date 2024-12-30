@@ -7,7 +7,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.iamkhangg.skyclothingapi.converters.ProductConverter;
+import com.iamkhangg.skyclothingapi.converters.ProductDetailConverter;
 import com.iamkhangg.skyclothingapi.dtos.ProductDTO;
+import com.iamkhangg.skyclothingapi.dtos.ProductDetailDTO;
 import com.iamkhangg.skyclothingapi.entities.Product;
 import com.iamkhangg.skyclothingapi.repositories.ProductRepository;
 import com.iamkhangg.skyclothingapi.services.ProductService;
@@ -47,5 +49,11 @@ public class ProductServiceImpl implements ProductService {
                 .stream()
                 .map(ProductConverter::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public ProductDetailDTO getProductDetailById(String productId) {
+        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found"));
+        return ProductDetailConverter.toDTO(product);
     }
 }
