@@ -14,4 +14,5 @@ public interface ProductService {
     void deleteProduct(String productId);
     List<ProductDTO> getAllProductsDTO(int page, int size); // New method
     ProductDetailDTO getProductDetailById(String productId);
+    ProductDetailDTO createProductDetail(ProductDetailDTO productDetailDTO);
 }

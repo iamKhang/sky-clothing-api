@@ -6,6 +6,7 @@ import java.util.Set;
 import org.hibernate.annotations.UuidGenerator;
 
 import com.iamkhangg.skyclothingapi.enums.Category;
+import com.iamkhangg.skyclothingapi.enums.Status;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -52,10 +53,13 @@ public class Product {
     @Column(nullable = false)
     private Category category;
 
+    // tình trạng
+    private Status status;
+
     
     @OneToMany(mappedBy = "product")
     private Set<ProductVariant> variants;
-    
+
     @ManyToMany(mappedBy = "products")
     private Set<ProductCollection> collections;
 

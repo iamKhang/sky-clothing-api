@@ -17,6 +17,7 @@ public class ProductDetailConverter {
             product.getMainImageUrl(),
             product.getSubImageUrl(),
             product.getSizeChartUrl(),
+            product.getStatus(),
             product.getPrice(),
             product.getCategory().name(),
             product.getCollections().stream().map(ProductCollection::getCollectionName).collect(Collectors.toSet()),

@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,9 +24,6 @@ public class ProductController {
 
     private final ProductService productService;
 
-    /**
-     * Get list product by page and size
-     */
     @GetMapping
     public List<ProductDTO> getProducts(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
         return productService.getAllProductsDTO(page, size);
@@ -35,4 +34,11 @@ public class ProductController {
         ProductDetailDTO productDetail = productService.getProductDetailById(productId);
         return ResponseEntity.ok(productDetail);
     }
+
+    @PostMapping
+    public ResponseEntity<ProductDetailDTO> createProductDetail(@RequestBody ProductDetailDTO productDetailDTO) {
+        ProductDetailDTO createdProductDetail = productService.createProductDetail(productDetailDTO);
+        return ResponseEntity.ok(createdProductDetail);
+    }
+    
 }

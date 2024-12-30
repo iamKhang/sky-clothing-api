@@ -1,15 +1,22 @@
 package com.iamkhangg.skyclothingapi.entities;
 
+import java.time.LocalDate;
+
+import org.hibernate.annotations.UuidGenerator;
+
 import com.iamkhangg.skyclothingapi.enums.Gender;
 import com.iamkhangg.skyclothingapi.enums.Role;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.UuidGenerator;
-
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "users")
@@ -38,7 +45,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
 

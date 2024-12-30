@@ -22,6 +22,7 @@ public class ProductConverter {
             product.getName(),
             product.getMainImageUrl(),
             product.getSubImageUrl(),
+            product.getStatus(),
             product.getPrice(),
             maxDiscountPercentage
         );
@@ -34,6 +35,7 @@ public class ProductConverter {
         product.setMainImageUrl(productDTO.getMainImageUrl());
         product.setSubImageUrl(productDTO.getSubImageUrl());
         product.setPrice(productDTO.getPrice());
+        product.setStatus(productDTO.getStatus());
         return product;
     }
 }

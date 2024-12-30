@@ -56,4 +56,11 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found"));
         return ProductDetailConverter.toDTO(product);
     }
+
+    @Override
+    public ProductDetailDTO createProductDetail(ProductDetailDTO productDetailDTO) {
+        Product product = ProductDetailConverter.toEntity(productDetailDTO);
+        Product savedProduct = productRepository.save(product);
+        return ProductDetailConverter.toDTO(savedProduct);
+    }
 }
