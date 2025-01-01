@@ -3,6 +3,7 @@ package com.iamkhangg.skyclothingapi.services.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.iamkhangg.skyclothingapi.entities.ProductVariant;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -60,7 +61,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDetailDTO createProductDetail(ProductDetailDTO productDetailDTO) {
         Product product = ProductDetailConverter.toEntity(productDetailDTO);
+        if (product.getVariants() != null) {
+            for (ProductVariant variant : product.getVariants()) {
+                variant.setProduct(product);
+            }
+        }
         Product savedProduct = productRepository.save(product);
+
         return ProductDetailConverter.toDTO(savedProduct);
     }
 }

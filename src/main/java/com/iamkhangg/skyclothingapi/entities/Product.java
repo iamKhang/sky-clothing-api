@@ -3,19 +3,12 @@ package com.iamkhangg.skyclothingapi.entities;
 import java.math.BigDecimal;
 import java.util.Set;
 
+import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import com.iamkhangg.skyclothingapi.enums.Category;
 import com.iamkhangg.skyclothingapi.enums.Status;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -57,10 +50,10 @@ public class Product {
     private Status status;
 
     
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private Set<ProductVariant> variants;
 
-    @ManyToMany(mappedBy = "products")
+    @ManyToMany(mappedBy = "products", cascade = CascadeType.PERSIST)
     private Set<ProductCollection> collections;
 
     @Override
