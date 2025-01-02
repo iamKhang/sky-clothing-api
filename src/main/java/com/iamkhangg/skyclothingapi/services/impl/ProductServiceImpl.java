@@ -10,6 +10,7 @@ import com.iamkhangg.skyclothingapi.dtos.ProductDTO;
 import com.iamkhangg.skyclothingapi.dtos.ProductDetailDTO;
 import com.iamkhangg.skyclothingapi.entities.Product;
 import com.iamkhangg.skyclothingapi.entities.ProductVariant;
+import com.iamkhangg.skyclothingapi.enums.Category;
 import com.iamkhangg.skyclothingapi.repositories.ProductRepository;
 import com.iamkhangg.skyclothingapi.services.ProductService;
 
@@ -64,5 +65,12 @@ public class ProductServiceImpl implements ProductService {
         Product savedProduct = productRepository.save(product);
 
         return ProductDetailConverter.toDTO(savedProduct);
+    }
+
+    @Override
+    public Page<ProductDTO> getProductsByCategory(Category category, int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page - 1, size);
+        Page<Product> products = productRepository.findByCategory(category, pageRequest);
+        return products.map(ProductConverter::toDTO);
     }
 }

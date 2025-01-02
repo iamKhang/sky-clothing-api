@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iamkhangg.skyclothingapi.dtos.ProductDTO;
 import com.iamkhangg.skyclothingapi.dtos.ProductDetailDTO;
+import com.iamkhangg.skyclothingapi.enums.Category;
 import com.iamkhangg.skyclothingapi.services.ProductService;
 
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,15 @@ public class ProductController {
     public ResponseEntity<ProductDetailDTO> createProductDetail(@RequestBody ProductDetailDTO productDetailDTO) {
         ProductDetailDTO createdProductDetail = productService.createProductDetail(productDetailDTO);
         return ResponseEntity.ok(createdProductDetail);
+    }
+
+    @GetMapping("/category/{category}")
+    public ResponseEntity<Page<ProductDTO>> getProductsByCategory(
+            @PathVariable Category category,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Page<ProductDTO> products = productService.getProductsByCategory(category, page, size);
+        return ResponseEntity.ok(products);
     }
     
 }
