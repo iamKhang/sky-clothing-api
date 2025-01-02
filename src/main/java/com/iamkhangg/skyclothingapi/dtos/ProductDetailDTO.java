@@ -22,6 +22,6 @@ public class ProductDetailDTO {
     private Status status;
     private BigDecimal price;
     private String category;
-    private Set<String> collections;
+    private String collectionId;
     private Set<ProductVariantDTO> variants;
 }

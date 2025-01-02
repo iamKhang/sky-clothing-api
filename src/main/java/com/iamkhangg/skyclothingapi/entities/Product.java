@@ -53,8 +53,12 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private Set<ProductVariant> variants;
 
-    @ManyToMany(mappedBy = "products", cascade = CascadeType.PERSIST)
-    private Set<ProductCollection> collections;
+    @ManyToOne
+    @JoinColumn(name = "collection_id")
+    private ProductCollection collection;
+
+//    @ManyToMany(mappedBy = "products", cascade = CascadeType.PERSIST)
+//    private Set<ProductCollection> collections;
 
     @Override
     public String toString() {

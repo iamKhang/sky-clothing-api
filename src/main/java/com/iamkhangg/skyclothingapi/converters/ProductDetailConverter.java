@@ -20,7 +20,7 @@ public class ProductDetailConverter {
             product.getStatus(),
             product.getPrice(),
             product.getCategory().name(),
-            product.getCollections().stream().map(ProductCollection::getCollectionName).collect(Collectors.toSet()),
+            product.getCollection().getCollectionId(),
             product.getVariants().stream().map(ProductVariantConverter::toDTO).collect(Collectors.toSet())
         );
     }
@@ -35,11 +35,7 @@ public class ProductDetailConverter {
         product.setSizeChartUrl(productDetailDTO.getSizeChartUrl());
         product.setPrice(productDetailDTO.getPrice());
         product.setCategory(Category.valueOf(productDetailDTO.getCategory()));
-        product.setCollections(productDetailDTO.getCollections().stream().map(name -> {
-            ProductCollection collection = new ProductCollection();
-            collection.setCollectionName(name);
-            return collection;
-        }).collect(Collectors.toSet()));
+        product.setCollection(new ProductCollection(productDetailDTO.getCollectionId()));
         product.setVariants(productDetailDTO.getVariants().stream().map(ProductVariantConverter::toEntity).collect(Collectors.toSet()));
         return product;
     }

@@ -34,6 +34,10 @@ public class ProductCollection {
     )
     private Set<Product> products;
 
+    public ProductCollection(String collectionId) {
+        this.collectionId = collectionId;
+    }
+
 
     @Override
     public String toString() {
