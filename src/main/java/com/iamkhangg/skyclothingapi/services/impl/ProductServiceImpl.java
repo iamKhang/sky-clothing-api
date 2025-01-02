@@ -44,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductDTO> getAllProductsDTO(int page, int size) {
-        return productRepository.findAll(PageRequest.of(page - 1, size))
+        return productRepository.findAll(PageRequest.of(page, size))
                 .map(ProductConverter::toDTO);
     }
 
@@ -69,7 +69,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductDTO> getProductsByCategory(Category category, int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page - 1, size);
+        PageRequest pageRequest = PageRequest.of(page, size);
         Page<Product> products = productRepository.findByCategory(category, pageRequest);
         return products.map(ProductConverter::toDTO);
     }
