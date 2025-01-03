@@ -96,4 +96,8 @@ public class User implements UserDetails {
                 ", role=" + role +
                 '}';
     }
+
+    public User(String userId) {
+        this.userId = userId;
+    }
 }
