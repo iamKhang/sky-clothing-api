@@ -61,4 +61,10 @@ public class CartServiceImpl implements CartService {
 
         return cartRepository.save(cart);
     }
+
+    @Override
+    public Cart getCart(String userId) {
+        return cartRepository.findByEmail(userId)
+                .orElseThrow(() -> new RuntimeException("Cart not found"));
+    }
 }
