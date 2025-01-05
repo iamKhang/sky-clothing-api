@@ -20,7 +20,7 @@ public class ProductDetailConverter {
             product.getStatus(),
             product.getPrice(),
             product.getCategory().name(),
-            product.getCollection().getCollectionId(),
+            product.getCollection() != null ? product.getCollection().getCollectionId() : null,
             product.getVariants().stream().map(ProductVariantConverter::toDTO).collect(Collectors.toSet())
         );
     }

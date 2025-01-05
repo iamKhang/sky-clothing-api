@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iamkhangg.skyclothingapi.models.AuthenticationRequest;
 import com.iamkhangg.skyclothingapi.models.AuthenticationResponse;
+import com.iamkhangg.skyclothingapi.models.RegisterRequest;
 import com.iamkhangg.skyclothingapi.services.UserDetailsServiceImpl;
+import com.iamkhangg.skyclothingapi.services.UserService;
 import com.iamkhangg.skyclothingapi.utils.JwtUtil;
 
 @RestController
@@ -29,12 +31,11 @@ public class AuthController {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
+    @Autowired
+    private UserService userService;
+
     @PostMapping("/authenticate")
     public AuthenticationResponse authenticate(@RequestBody AuthenticationRequest request) throws Exception {
-
-        System.out.println(request.getEmail());
-        System.out.println(request.getPassword());
-
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
@@ -44,4 +45,10 @@ public class AuthController {
 
         return new AuthenticationResponse(jwt);
     }
+    
+    @PostMapping("/register")
+    public String register(@RequestBody RegisterRequest request) {
+        return userService.registerUser(request);
+    }
+    
 }

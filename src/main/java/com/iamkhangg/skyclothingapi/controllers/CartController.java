@@ -30,6 +30,7 @@ public class CartController {
         String userId = authentication.getName();
         Cart cart = cartService.addToCart(userId, request);
         CartDTO cartDTO = cartConverter.convertToDTO(cart);
+        System.out.println(cartDTO);
         return ResponseEntity.ok(cartDTO);
     }
 
