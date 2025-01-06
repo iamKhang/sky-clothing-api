@@ -10,6 +10,7 @@ public class ProductVariantConverter {
     public static ProductVariantDTO toDTO(ProductVariant productVariant) {
         return new ProductVariantDTO(
             productVariant.getVariantId(),
+            productVariant.getProduct().getName(),
             productVariant.getSku(),
             productVariant.getColor().name(),
             productVariant.getSize().name(),

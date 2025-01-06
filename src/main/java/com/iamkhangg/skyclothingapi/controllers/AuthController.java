@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iamkhangg.skyclothingapi.entities.User;
 import com.iamkhangg.skyclothingapi.models.AuthenticationRequest;
 import com.iamkhangg.skyclothingapi.models.AuthenticationResponse;
 import com.iamkhangg.skyclothingapi.models.RegisterRequest;
@@ -42,8 +43,9 @@ public class AuthController {
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
         final String jwt = jwtUtil.generateToken(userDetails);
+        final String fullName = ((User) userDetails).getFullName();
 
-        return new AuthenticationResponse(jwt);
+        return new AuthenticationResponse(jwt, fullName);
     }
     
     @PostMapping("/register")
