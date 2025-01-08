@@ -3,12 +3,21 @@ package com.iamkhangg.skyclothingapi.entities;
 import java.math.BigDecimal;
 import java.util.Set;
 
-import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import com.iamkhangg.skyclothingapi.enums.Category;
 import com.iamkhangg.skyclothingapi.enums.Status;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,7 +55,8 @@ public class Product {
     @Column(nullable = false)
     private Category category;
 
-    // tình trạng
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Status status;
 
     
@@ -57,8 +67,6 @@ public class Product {
     @JoinColumn(name = "collection_id")
     private ProductCollection collection;
 
-//    @ManyToMany(mappedBy = "products", cascade = CascadeType.PERSIST)
-//    private Set<ProductCollection> collections;
 
     @Override
     public String toString() {

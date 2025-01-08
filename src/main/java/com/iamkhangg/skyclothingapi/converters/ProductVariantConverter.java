@@ -1,6 +1,6 @@
 package com.iamkhangg.skyclothingapi.converters;
 
-import com.iamkhangg.skyclothingapi.dtos.ProductVariantDTO;
+import com.iamkhangg.skyclothingapi.dtos.product.ProductVariantDTO;
 import com.iamkhangg.skyclothingapi.entities.ProductVariant;
 import com.iamkhangg.skyclothingapi.enums.Color;
 import com.iamkhangg.skyclothingapi.enums.Size;
@@ -8,33 +8,27 @@ import com.iamkhangg.skyclothingapi.enums.Size;
 public class ProductVariantConverter {
 
     public static ProductVariantDTO toDTO(ProductVariant productVariant) {
-        return new ProductVariantDTO(
-            productVariant.getVariantId(),
-            productVariant.getProduct().getName(),
-            productVariant.getSku(),
-            productVariant.getColor().name(),
-            productVariant.getSize().name(),
-            productVariant.getQuantity(),
-            productVariant.getDiscountPercentage(),
-            productVariant.getProductImages()
-        );
+        return ProductVariantDTO.builder()
+            .variantId(productVariant.getVariantId())
+            .productName(productVariant.getProduct().getName())
+            .sku(productVariant.getSku())
+            .color(productVariant.getColor().name())
+            .size(productVariant.getSize().name())
+            .quantity(productVariant.getQuantity())
+            .discountPercentage(productVariant.getDiscountPercentage())
+            .productImages(productVariant.getProductImages())
+            .build();
     }
 
-    public static ProductVariant toEntity(ProductVariantDTO productVariantDTO) {
-        return new ProductVariant(
-            productVariantDTO.getVariantId(),
-            null, // Assuming product is not available in ProductVariantDTO
-            productVariantDTO.getSku(),
-            Color.valueOf(productVariantDTO.getColor()),
-            Size.valueOf(productVariantDTO.getSize()),
-            productVariantDTO.getQuantity(),
-            null, // Assuming soldQuantity is not available in ProductVariantDTO
-            productVariantDTO.getDiscountPercentage(),
-            null, // Assuming createdDate is not available in ProductVariantDTO
-            null, // Assuming active is not available in ProductVariantDTO
-            null, // Assuming newProduct is not available in ProductVariantDTO
-            null, // Assuming bestSeller is not available in ProductVariantDTO
-            productVariantDTO.getProductImages()
-        );
+    public static ProductVariant toEntity(ProductVariantDTO dto) {
+        ProductVariant variant = new ProductVariant();
+        variant.setVariantId(dto.getVariantId());
+        variant.setSku(dto.getSku());
+        variant.setColor(Color.valueOf(dto.getColor()));
+        variant.setSize(Size.valueOf(dto.getSize()));
+        variant.setQuantity(dto.getQuantity());
+        variant.setDiscountPercentage(dto.getDiscountPercentage());
+        variant.setProductImages(dto.getProductImages());
+        return variant;
     }
 }

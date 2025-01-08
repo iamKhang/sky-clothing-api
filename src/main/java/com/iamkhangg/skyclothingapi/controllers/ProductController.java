@@ -1,5 +1,8 @@
 package com.iamkhangg.skyclothingapi.controllers;
 
+import com.iamkhangg.skyclothingapi.dtos.base.BaseProductDTO;
+import com.iamkhangg.skyclothingapi.dtos.product.ProductDetailDTO;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,8 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.iamkhangg.skyclothingapi.dtos.ProductDTO;
-import com.iamkhangg.skyclothingapi.dtos.ProductDetailDTO;
+import com.iamkhangg.skyclothingapi.dtos.product.ProductListDTO;
 import com.iamkhangg.skyclothingapi.enums.Category;
 import com.iamkhangg.skyclothingapi.services.ProductService;
 
@@ -25,7 +27,7 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public Page<ProductDTO> getProducts(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public Page<ProductListDTO> getProducts(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return productService.getAllProductsDTO(page, size);
     }
 
@@ -42,12 +44,16 @@ public class ProductController {
     }
 
     @GetMapping("/category/{category}")
-    public ResponseEntity<Page<ProductDTO>> getProductsByCategory(
+    public ResponseEntity<Page<ProductListDTO>> getProductsByCategory(
             @PathVariable Category category,
-            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        Page<ProductDTO> products = productService.getProductsByCategory(category, page, size);
-        return ResponseEntity.ok(products);
+        try {
+            Page<ProductListDTO> products = productService.getProductsByCategory(category, page, size);
+            return ResponseEntity.ok(products);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
     
 }

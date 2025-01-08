@@ -6,44 +6,52 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.iamkhangg.skyclothingapi.dtos.ProductDTO;
+import com.iamkhangg.skyclothingapi.dtos.product.ProductDetailDTO;
+import com.iamkhangg.skyclothingapi.dtos.product.ProductListDTO;
 import com.iamkhangg.skyclothingapi.entities.Product;
 import com.iamkhangg.skyclothingapi.entities.ProductVariant;
-import com.iamkhangg.skyclothingapi.enums.Color;
 
 @Component
 public class ProductConverter {
 
-    public static ProductDTO toDTO(Product product) {
-        BigDecimal maxDiscountPercentage = product.getVariants().stream()
+    public static ProductListDTO toListDTO(Product product) {
+        BigDecimal maxDiscount = product.getVariants().stream()
                 .map(ProductVariant::getDiscountPercentage)
                 .max(BigDecimal::compareTo)
                 .orElse(BigDecimal.ZERO);
 
-        Set<Color> colors = product.getVariants().stream()
-                .map(ProductVariant::getColor)
+        Set<String> colors = product.getVariants().stream()
+                .map(variant -> variant.getColor().name())
                 .collect(Collectors.toSet());
 
-        return new ProductDTO(
-            product.getProductId(),
-            product.getName(),
-            product.getMainImageUrl(),
-            product.getSubImageUrl(),
-            product.getStatus(),
-            product.getPrice(),
-            maxDiscountPercentage,
-            colors
-        );
+        return ProductListDTO.builder()
+                .productId(product.getProductId())
+                .name(product.getName())
+                .mainImageUrl(product.getMainImageUrl())
+                .subImageUrl(product.getSubImageUrl())
+                .price(product.getPrice())
+                .status(product.getStatus() != null ? product.getStatus().name() : null)
+                .maxDiscountPercentage(maxDiscount)
+                .availableColors(colors)
+                .build();
     }
 
-    public static Product toEntity(ProductDTO productDTO) {
-        Product product = new Product();
-        product.setProductId(productDTO.getProductId());
-        product.setName(productDTO.getName());
-        product.setMainImageUrl(productDTO.getMainImageUrl());
-        product.setSubImageUrl(productDTO.getSubImageUrl());
-        product.setPrice(productDTO.getPrice());
-        product.setStatus(productDTO.getStatus());
-        return product;
+    public static ProductDetailDTO toDetailDTO(Product product) {
+        return ProductDetailDTO.builder()
+                .productId(product.getProductId())
+                .name(product.getName())
+                .description(product.getDescription())
+                .mainImageUrl(product.getMainImageUrl())
+                .subImageUrl(product.getSubImageUrl())
+                .sizeChartUrl(product.getSizeChartUrl())
+                .price(product.getPrice())
+                .status(product.getStatus().name())
+                .category(product.getCategory().name())
+                .collectionId(product.getCollection() != null ? 
+                    product.getCollection().getCollectionId() : null)
+                .variants(product.getVariants().stream()
+                    .map(ProductVariantConverter::toDTO)
+                    .collect(Collectors.toSet()))
+                .build();
     }
 }
