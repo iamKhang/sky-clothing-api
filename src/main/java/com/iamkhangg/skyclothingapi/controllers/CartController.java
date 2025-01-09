@@ -28,6 +28,7 @@ public class CartController {
 
     @PostMapping("/add")
     public ResponseEntity<CartDTO> addToCart(@RequestBody AddToCartDTO request, Authentication authentication) {
+        System.out.println(request);
         if (request == null || request.getVariantId() == null || request.getQuantity() == null) {
             throw new IllegalArgumentException("Thông tin sản phẩm không hợp lệ");
         }

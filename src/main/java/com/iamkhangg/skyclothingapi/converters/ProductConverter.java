@@ -45,7 +45,7 @@ public class ProductConverter {
                 .subImageUrl(product.getSubImageUrl())
                 .sizeChartUrl(product.getSizeChartUrl())
                 .price(product.getPrice())
-                .status(product.getStatus().name())
+                .status(product.getStatus()!= null ? product.getStatus().name() : null)
                 .category(product.getCategory().name())
                 .collectionId(product.getCollection() != null ? 
                     product.getCollection().getCollectionId() : null)
