@@ -1,8 +1,5 @@
 package com.iamkhangg.skyclothingapi.controllers;
 
-import com.iamkhangg.skyclothingapi.dtos.base.BaseProductDTO;
-import com.iamkhangg.skyclothingapi.dtos.product.ProductDetailDTO;
-
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iamkhangg.skyclothingapi.dtos.product.ProductDetailDTO;
 import com.iamkhangg.skyclothingapi.dtos.product.ProductListDTO;
 import com.iamkhangg.skyclothingapi.enums.Category;
 import com.iamkhangg.skyclothingapi.services.ProductService;
@@ -39,8 +37,14 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<ProductDetailDTO> createProductDetail(@RequestBody ProductDetailDTO productDetailDTO) {
-        ProductDetailDTO createdProductDetail = productService.createProductDetail(productDetailDTO);
-        return ResponseEntity.ok(createdProductDetail);
+        try {
+            ProductDetailDTO createdProductDetail = productService.createProductDetail(productDetailDTO);
+            return ResponseEntity.ok(createdProductDetail);
+        } catch (Exception e) {
+            // Log the error
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping("/category/{category}")
