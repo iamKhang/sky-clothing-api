@@ -14,4 +14,12 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 public class ProductVariantDTO extends BaseVariantDTO {
     private String productName;
+
+    @Override
+    public String toString() {
+        return "ProductVariantDTO{" +
+                "baseVariant=" + super.toString() +
+                ", productName='" + productName + '\'' +
+                '}';
+    }
 } 

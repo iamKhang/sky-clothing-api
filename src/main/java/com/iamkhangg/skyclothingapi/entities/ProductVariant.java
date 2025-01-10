@@ -1,16 +1,29 @@
 package com.iamkhangg.skyclothingapi.entities;
 
-import com.iamkhangg.skyclothingapi.enums.Color;
-import com.iamkhangg.skyclothingapi.enums.Size;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.UuidGenerator;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.hibernate.annotations.UuidGenerator;
+
+import com.iamkhangg.skyclothingapi.enums.Color;
+import com.iamkhangg.skyclothingapi.enums.Size;
+
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "product_variants")
@@ -18,6 +31,8 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 public class ProductVariant {
+    private static final AtomicInteger sequence = new AtomicInteger(1000);
+
     @Id
     @UuidGenerator
     private String variantId;
@@ -62,6 +77,27 @@ public class ProductVariant {
     @CollectionTable(name = "product_images", joinColumns = @JoinColumn(name = "variant_id"))
     @Column(name = "image_url")
     private Set<String> productImages;
+
+    @PrePersist
+    private void generateSku() {
+        if (this.sku == null || this.sku.isEmpty()) {
+            String prefix = generatePrefix();
+            int sequenceNumber = sequence.getAndIncrement();
+            this.sku = prefix + String.format("%04d", sequenceNumber);
+        }
+    }
+
+    private String generatePrefix() {
+        if (product != null && product.getName() != null) {
+            String name = product.getName().toUpperCase();
+            if (name.length() >= 3) {
+                return name.substring(0, 3);
+            } else {
+                return (name + "XXX").substring(0, 3);
+            }
+        }
+        return "XXX";
+    }
 
     @Override
     public String toString() {

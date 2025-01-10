@@ -1,7 +1,7 @@
 package com.iamkhangg.skyclothingapi.dtos.base;
 
 import java.math.BigDecimal;
-import java.util.Set;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,5 +19,19 @@ public class BaseVariantDTO {
     private String size;
     private Integer quantity;
     private BigDecimal discountPercentage;
-    private Set<String> productImages;
+    private List<String> productImages;
+
+
+    @Override
+    public String toString() {
+        return "BaseVariantDTO{" +
+                "variantId='" + variantId + '\'' +
+                ", sku='" + sku + '\'' +
+                ", color='" + color + '\'' +
+                ", size='" + size + '\'' +
+                ", quantity=" + quantity +
+                ", discountPercentage=" + discountPercentage +
+                ", productImages=" + productImages +
+                '}';
+    }
 } 

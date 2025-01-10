@@ -51,7 +51,7 @@ public class ProductConverter {
                     product.getCollection().getCollectionId() : null)
                 .variants(product.getVariants().stream()
                     .map(ProductVariantConverter::toDTO)
-                    .collect(Collectors.toSet()))
+                    .collect(Collectors.toList()))
                 .build();
     }
 }

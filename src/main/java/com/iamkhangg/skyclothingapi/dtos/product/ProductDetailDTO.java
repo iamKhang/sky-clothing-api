@@ -1,6 +1,8 @@
 package com.iamkhangg.skyclothingapi.dtos.product;
 
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.iamkhangg.skyclothingapi.dtos.base.BaseProductDTO;
 
@@ -20,5 +22,17 @@ public class ProductDetailDTO extends BaseProductDTO {
     private String sizeChartUrl;
     private String category;
     private String collectionId;
-    private Set<ProductVariantDTO> variants;
+    private List<ProductVariantDTO> variants;
+
+    @Override
+    public String toString() {
+        return "ProductDetailDTO{" +
+                "baseProduct=" + super.toString() +
+                ", description='" + description + '\'' +
+                ", sizeChartUrl='" + sizeChartUrl + '\'' +
+                ", category='" + category + '\'' +
+                ", collectionId='" + collectionId + '\'' +
+                ", variants=" + variants.stream().map(ProductVariantDTO::toString).collect(Collectors.joining(", ")) +
+                '}';
+    }
 } 

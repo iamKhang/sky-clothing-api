@@ -10,4 +10,12 @@ import lombok.NoArgsConstructor;
 public class AddToCartDTO {
     private String variantId;
     private Integer quantity;
+
+    @Override
+    public String toString() {
+        return "AddToCartDTO{" +
+                "variantId='" + variantId + '\'' +
+                ", quantity=" + quantity +
+                '}';
+    }
 } 

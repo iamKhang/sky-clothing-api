@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 @Data
 @SuperBuilder
@@ -20,4 +18,16 @@ public class BaseProductDTO {
     private String subImageUrl;
     private BigDecimal price;
     private String status;
+
+    @Override
+    public String toString() {
+        return "BaseProductDTO{" +
+                "productId='" + productId + '\'' +
+                ", name='" + name + '\'' +
+                ", mainImageUrl='" + mainImageUrl + '\'' +
+                ", subImageUrl='" + subImageUrl + '\'' +
+                ", price=" + price +
+                ", status='" + status + '\'' +
+                '}';
+    }
 } 

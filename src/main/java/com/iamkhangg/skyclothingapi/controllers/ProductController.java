@@ -1,5 +1,6 @@
 package com.iamkhangg.skyclothingapi.controllers;
 
+import com.iamkhangg.skyclothingapi.dtos.product.ProductVariantDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,10 @@ import com.iamkhangg.skyclothingapi.enums.Category;
 import com.iamkhangg.skyclothingapi.services.ProductService;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
+import static java.lang.System.out;
 
 @RestController
 @RequestMapping("/api/products")
@@ -37,6 +42,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<ProductDetailDTO> createProductDetail(@RequestBody ProductDetailDTO productDetailDTO) {
+        List<ProductVariantDTO> variants = productDetailDTO.getVariants();
         try {
             ProductDetailDTO createdProductDetail = productService.createProductDetail(productDetailDTO);
             return ResponseEntity.ok(createdProductDetail);

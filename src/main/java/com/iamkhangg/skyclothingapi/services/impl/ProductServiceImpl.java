@@ -4,26 +4,27 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.iamkhangg.skyclothingapi.enums.Status;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import com.iamkhangg.skyclothingapi.converters.ProductConverter;
 import com.iamkhangg.skyclothingapi.converters.ProductVariantConverter;
-import com.iamkhangg.skyclothingapi.dtos.product.ProductListDTO;
 import com.iamkhangg.skyclothingapi.dtos.product.ProductDetailDTO;
+import com.iamkhangg.skyclothingapi.dtos.product.ProductListDTO;
 import com.iamkhangg.skyclothingapi.entities.Product;
 import com.iamkhangg.skyclothingapi.entities.ProductCollection;
 import com.iamkhangg.skyclothingapi.entities.ProductVariant;
 import com.iamkhangg.skyclothingapi.enums.Category;
+import com.iamkhangg.skyclothingapi.enums.Status;
 import com.iamkhangg.skyclothingapi.repositories.ProductRepository;
+import com.iamkhangg.skyclothingapi.repositories.ProductVariantRepository;
 import com.iamkhangg.skyclothingapi.services.ProductService;
+import com.iamkhangg.skyclothingapi.utils.SkuGenerator;
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +32,7 @@ public class ProductServiceImpl implements ProductService {
     private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     private final ProductRepository productRepository;
+    private final ProductVariantRepository productVariantRepository;
 
     @Override
     public Product getProductById(String productId) {
@@ -86,7 +88,14 @@ public class ProductServiceImpl implements ProductService {
                     .map(ProductVariantConverter::toEntity)
                     .collect(Collectors.toSet());
 
-            variants.forEach(variant -> variant.setProduct(product));
+            List<ProductVariant> allVariants = productVariantRepository.findAll();
+
+            variants.forEach(variant -> {
+                variant.setProduct(product);
+                String sku = SkuGenerator.generateSku(product.getName(), allVariants, variant.getSize(), variant.getColor());
+                variant.setSku(sku);
+            });
+
             product.setVariants(variants);
         }
 

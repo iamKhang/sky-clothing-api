@@ -11,4 +11,13 @@ public class FileUploadResponseDTO {
     private String fileName;
     private String fileUrl;
     private String message;
+
+    @Override
+    public String toString() {
+        return "FileUploadResponseDTO{" +
+                "fileName='" + fileName + '\'' +
+                ", fileUrl='" + fileUrl + '\'' +
+                ", message='" + message + '\'' +
+                '}';
+    }
 } 

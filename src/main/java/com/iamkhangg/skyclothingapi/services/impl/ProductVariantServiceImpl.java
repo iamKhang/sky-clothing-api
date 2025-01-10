@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.iamkhangg.skyclothingapi.entities.ProductVariant;
 import com.iamkhangg.skyclothingapi.services.ProductVariantService;
+import com.iamkhangg.skyclothingapi.utils.SkuGenerator;
 
 @Service
 public class ProductVariantServiceImpl implements ProductVariantService {
@@ -22,7 +23,11 @@ public class ProductVariantServiceImpl implements ProductVariantService {
 
     @Override
     public ProductVariant createVariant(String productId, ProductVariant variant) {
-        return null;
+        List<ProductVariant> existingVariants = getAllVariantsByProductId(productId);
+
+        String sku = SkuGenerator.generateSku(variant.getProduct().getName(), existingVariants, variant.getSize(), variant.getColor());
+        variant.setSku(sku);
+        return variant;
     }
 
     @Override

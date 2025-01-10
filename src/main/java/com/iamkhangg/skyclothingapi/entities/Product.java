@@ -2,6 +2,7 @@ package com.iamkhangg.skyclothingapi.entities;
 
 import java.math.BigDecimal;
 import java.util.Set;
+import java.util.HashSet;
 
 import org.hibernate.annotations.UuidGenerator;
 
@@ -67,6 +68,13 @@ public class Product {
     @JoinColumn(name = "collection_id")
     private ProductCollection collection;
 
+    public void addVariant(ProductVariant variant) {
+        if (variants == null) {
+            variants = new HashSet<>();
+        }
+        variants.add(variant);
+        variant.setProduct(this);
+    }
 
     @Override
     public String toString() {
