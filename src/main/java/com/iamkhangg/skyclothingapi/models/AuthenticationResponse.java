@@ -1,19 +1,13 @@
 package com.iamkhangg.skyclothingapi.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class AuthenticationResponse {
-    private final String jwt;
-    private final String fullName;
-
-    public AuthenticationResponse(String jwt, String fullName) {
-        this.jwt = jwt;
-        this.fullName = fullName;
-    }
-
-    public String getJwt() {
-        return jwt;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
+    private String jwt;
+    private String fullName;
 }
