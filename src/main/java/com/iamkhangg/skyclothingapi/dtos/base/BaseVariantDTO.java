@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BaseVariantDTO {
+public class  BaseVariantDTO {
     private String variantId;
     private String sku;
     private String color;

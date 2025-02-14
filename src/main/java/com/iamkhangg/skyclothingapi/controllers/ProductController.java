@@ -30,7 +30,8 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public Page<ProductListDTO> getProducts(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public Page<ProductListDTO> getProducts(@RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
         return productService.getAllProductsDTO(page, size);
     }
 
@@ -53,17 +54,32 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/category/{category}")
-    public ResponseEntity<Page<ProductListDTO>> getProductsByCategory(
-            @PathVariable Category category,
+    @GetMapping("/category/{mainCategory}")
+    public ResponseEntity<Page<ProductListDTO>> getProductsByMainCategory(
+            @PathVariable String mainCategory,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         try {
+            Page<ProductListDTO> products = productService.getProductsByMainCategory(mainCategory, page, size);
+            return ResponseEntity.ok(products);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/category/{mainCategory}/{subCategory}")
+    public ResponseEntity<Page<ProductListDTO>> getProductsByCategory(
+            @PathVariable String mainCategory,
+            @PathVariable String subCategory,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        try {
+            Category category = Category.fromMainAndSubCategory(mainCategory, subCategory);
             Page<ProductListDTO> products = productService.getProductsByCategory(category, page, size);
             return ResponseEntity.ok(products);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
     }
-    
+
 }

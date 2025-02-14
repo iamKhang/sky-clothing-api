@@ -16,4 +16,5 @@ public interface ProductService {
     ProductDetailDTO getProductDetailById(String productId);
     ProductDetailDTO createProductDetail(ProductDetailDTO productDetailDTO);
     Page<ProductListDTO> getProductsByCategory(Category category, int page, int size);
+    Page<ProductListDTO> getProductsByMainCategory(String mainCategory, int page, int size);
 }

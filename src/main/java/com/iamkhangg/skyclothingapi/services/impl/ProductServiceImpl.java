@@ -71,7 +71,6 @@ public class ProductServiceImpl implements ProductService {
     public ProductDetailDTO createProductDetail(ProductDetailDTO productDetailDTO) {
         Product product = new Product();
         product.setName(productDetailDTO.getName());
-        product.setDescription(productDetailDTO.getDescription());
         product.setMainImageUrl(productDetailDTO.getMainImageUrl());
         product.setSubImageUrl(productDetailDTO.getSubImageUrl());
         product.setSizeChartUrl(productDetailDTO.getSizeChartUrl());
@@ -127,6 +126,29 @@ public class ProductServiceImpl implements ProductService {
         } catch (Exception e) {
             logger.error("Error getting products by category: {}", e.getMessage(), e);
             throw new RuntimeException("Error getting products by category: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public Page<ProductListDTO> getProductsByMainCategory(String mainCategory, int page, int size) {
+        try {
+            logger.debug("Searching products for main category: {}, page: {}, size: {}", mainCategory, page, size);
+            
+            PageRequest pageRequest = PageRequest.of(page, size);
+            Page<Product> products = productRepository.findByMainCategory(mainCategory.toUpperCase(), pageRequest);
+            
+            logger.debug("Found {} products", products.getTotalElements());
+            
+            if (products.isEmpty()) {
+                logger.debug("No available products found, searching all products in main category");
+                products = productRepository.findAllByMainCategory(mainCategory.toUpperCase(), pageRequest);
+                logger.debug("Found {} total products", products.getTotalElements());
+            }
+            
+            return products.map(ProductConverter::toListDTO);
+        } catch (Exception e) {
+            logger.error("Error getting products by main category: {}", e.getMessage(), e);
+            throw new RuntimeException("Error getting products by main category: " + e.getMessage());
         }
     }
 }

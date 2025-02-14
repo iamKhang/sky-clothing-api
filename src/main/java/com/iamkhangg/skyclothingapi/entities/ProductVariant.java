@@ -3,6 +3,7 @@ package com.iamkhangg.skyclothingapi.entities;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.hibernate.annotations.UuidGenerator;
@@ -76,7 +77,7 @@ public class ProductVariant {
     @ElementCollection
     @CollectionTable(name = "product_images", joinColumns = @JoinColumn(name = "variant_id"))
     @Column(name = "image_url")
-    private Set<String> productImages;
+    private SortedSet<String> productImages;
 
     @PrePersist
     private void generateSku() {

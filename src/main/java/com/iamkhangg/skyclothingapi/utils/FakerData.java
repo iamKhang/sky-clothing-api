@@ -30,7 +30,7 @@ public class FakerData {
 
     @PostConstruct
     public void initData() {
-       if (productRepository.count()==0){
+       if (false){
            Faker faker = new Faker();
 
            // Create collections
@@ -38,7 +38,6 @@ public class FakerData {
            for (int i = 0; i < 10; i++) {
                ProductCollection collection = new ProductCollection();
                collection.setCollectionName(faker.commerce().department());
-               collection.setDescription(faker.lorem().sentence());
                collections.add(productCollectionRepository.save(collection));
            }
 
@@ -46,7 +45,6 @@ public class FakerData {
            for (int i = 0; i < 30; i++) {
                Product product = new Product();
                product.setName(faker.commerce().productName());
-               product.setDescription(faker.lorem().sentence());
                product.setMainImageUrl(faker.internet().url());
                product.setSubImageUrl(faker.internet().url());
                product.setSizeChartUrl(faker.internet().url());
@@ -80,7 +78,7 @@ public class FakerData {
                            while (images.size() < 4) {
                                images.add(faker.internet().url());
                            }
-                           variant.setProductImages(images);
+//                           variant.setProductImages(images);
 
                            productVariantRepository.save(variant);
                        }

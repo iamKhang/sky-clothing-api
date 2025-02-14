@@ -24,7 +24,6 @@ public class ProductCollection {
     @Column(nullable = false, name = "collection_name")
     private String collectionName;
 
-    private String description;
 
     @ManyToMany
     @JoinTable(
@@ -44,7 +43,6 @@ public class ProductCollection {
         return "ProductCollection{" +
                 "collectionId='" + collectionId + '\'' +
                 ", collectionName='" + collectionName + '\'' +
-                ", description='" + description + '\'' +
                 '}';
     }
 }

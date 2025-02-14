@@ -24,9 +24,11 @@ public class FileController {
     private final FileStorageService fileStorageService;
 
     @PostMapping("/upload")
-    public ResponseEntity<FileUploadResponseDTO> uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<FileUploadResponseDTO> uploadFile(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("productName") String productName) {
         try {
-            String fileUrl = fileStorageService.storeFile(file);
+            String fileUrl = fileStorageService.storeFile(file, productName);
             FileUploadResponseDTO response = new FileUploadResponseDTO(
                 file.getOriginalFilename(),
                 fileUrl,
@@ -41,10 +43,10 @@ public class FileController {
 
     @PostMapping("/upload-multiple")
     public ResponseEntity<List<FileUploadResponseDTO>> uploadMultipleFiles(
-            @RequestParam("files") MultipartFile[] files) {
-        System.out.println(files);
+            @RequestParam("files") MultipartFile[] files,
+            @RequestParam("productName") String productName) {
         try {
-            List<String> fileUrls = fileStorageService.storeMultipleFiles(files);
+            List<String> fileUrls = fileStorageService.storeMultipleFiles(files, productName);
             List<FileUploadResponseDTO> responses = fileUrls.stream()
                 .map(url -> new FileUploadResponseDTO(null, url, "File uploaded successfully"))
                 .collect(Collectors.toList());

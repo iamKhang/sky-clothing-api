@@ -5,6 +5,7 @@ import com.iamkhangg.skyclothingapi.entities.ProductVariant;
 import com.iamkhangg.skyclothingapi.enums.Color;
 import com.iamkhangg.skyclothingapi.enums.Size;
 
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class ProductVariantConverter {
@@ -32,7 +33,9 @@ public class ProductVariantConverter {
         variant.setSize(Size.valueOf(dto.getSize()));
         variant.setQuantity(dto.getQuantity());
         variant.setDiscountPercentage(dto.getDiscountPercentage());
-        variant.setProductImages(dto.getProductImages().stream().collect(Collectors.toSet()));
+        TreeSet<String> images = new TreeSet<>();
+        images.addAll(dto.getProductImages());
+        variant.setProductImages(images);
         return variant;
     }
 }

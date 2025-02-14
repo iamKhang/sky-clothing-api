@@ -40,7 +40,6 @@ public class ProductConverter {
         return ProductDetailDTO.builder()
                 .productId(product.getProductId())
                 .name(product.getName())
-                .description(product.getDescription())
                 .mainImageUrl(product.getMainImageUrl())
                 .subImageUrl(product.getSubImageUrl())
                 .sizeChartUrl(product.getSizeChartUrl())

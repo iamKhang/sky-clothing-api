@@ -15,4 +15,10 @@ public interface ProductRepository extends JpaRepository<Product, String> {
     
     @Query("SELECT p FROM Product p WHERE p.category = :category")
     Page<Product> findAllByCategory(@Param("category") Category category, Pageable pageable);
+    
+    @Query("SELECT p FROM Product p WHERE FUNCTION('SUBSTRING_BEFORE', p.category, '_') = :mainCategory AND p.status = 'AVAILABLE'")
+    Page<Product> findByMainCategory(@Param("mainCategory") String mainCategory, Pageable pageable);
+    
+    @Query("SELECT p FROM Product p WHERE FUNCTION('SUBSTRING_BEFORE', p.category, '_') = :mainCategory")
+    Page<Product> findAllByMainCategory(@Param("mainCategory") String mainCategory, Pageable pageable);
 }

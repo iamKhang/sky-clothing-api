@@ -39,8 +39,6 @@ public class Product {
     @Column(nullable = false)
     private String name;
 
-    private String description;
-
     @Column(name = "main_image_url" ,nullable = false)
     private String mainImageUrl;
 
@@ -81,7 +79,6 @@ public class Product {
         return "Product{" +
                 "productId='" + productId + '\'' +
                 ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
                 ", mainImageUrl='" + mainImageUrl + '\'' +
                 ", subImageUrl='" + subImageUrl + '\'' +
                 ", sizeChartUrl='" + sizeChartUrl + '\'' +
