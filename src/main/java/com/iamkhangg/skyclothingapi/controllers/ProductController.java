@@ -43,12 +43,10 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<ProductDetailDTO> createProductDetail(@RequestBody ProductDetailDTO productDetailDTO) {
-        List<ProductVariantDTO> variants = productDetailDTO.getVariants();
         try {
             ProductDetailDTO createdProductDetail = productService.createProductDetail(productDetailDTO);
             return ResponseEntity.ok(createdProductDetail);
         } catch (Exception e) {
-            // Log the error
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }

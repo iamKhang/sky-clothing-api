@@ -58,20 +58,16 @@ public class Product {
     @Column(nullable = false)
     private Status status;
 
-    
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private Set<ProductVariant> variants;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ProductColor> colors = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "collection_id")
     private ProductCollection collection;
 
-    public void addVariant(ProductVariant variant) {
-        if (variants == null) {
-            variants = new HashSet<>();
-        }
-        variants.add(variant);
-        variant.setProduct(this);
+    public void addColor(ProductColor color) {
+        colors.add(color);
+        color.setProduct(this);
     }
 
     @Override

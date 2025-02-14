@@ -10,19 +10,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.iamkhangg.skyclothingapi.converters.ProductColorConverter;
 import com.iamkhangg.skyclothingapi.converters.ProductConverter;
-import com.iamkhangg.skyclothingapi.converters.ProductVariantConverter;
+import com.iamkhangg.skyclothingapi.dtos.product.ProductColorDTO;
 import com.iamkhangg.skyclothingapi.dtos.product.ProductDetailDTO;
 import com.iamkhangg.skyclothingapi.dtos.product.ProductListDTO;
 import com.iamkhangg.skyclothingapi.entities.Product;
 import com.iamkhangg.skyclothingapi.entities.ProductCollection;
-import com.iamkhangg.skyclothingapi.entities.ProductVariant;
+import com.iamkhangg.skyclothingapi.entities.ProductColor;
 import com.iamkhangg.skyclothingapi.enums.Category;
 import com.iamkhangg.skyclothingapi.enums.Status;
 import com.iamkhangg.skyclothingapi.repositories.ProductRepository;
-import com.iamkhangg.skyclothingapi.repositories.ProductVariantRepository;
 import com.iamkhangg.skyclothingapi.services.ProductService;
-import com.iamkhangg.skyclothingapi.utils.SkuGenerator;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,7 +31,6 @@ public class ProductServiceImpl implements ProductService {
     private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     private final ProductRepository productRepository;
-    private final ProductVariantRepository productVariantRepository;
 
     @Override
     public Product getProductById(String productId) {
@@ -82,20 +80,16 @@ public class ProductServiceImpl implements ProductService {
             product.setCollection(new ProductCollection(productDetailDTO.getCollectionId()));
         }
 
-        if (productDetailDTO.getVariants() != null) {
-            Set<ProductVariant> variants = productDetailDTO.getVariants().stream()
-                    .map(ProductVariantConverter::toEntity)
+        if (productDetailDTO.getColors() != null) {
+            Set<ProductColor> colors = productDetailDTO.getColors().stream()
+                    .map(colorDTO -> {
+                        ProductColor color = ProductColorConverter.toEntity(colorDTO);
+                        color.setProduct(product);
+                        return color;
+                    })
                     .collect(Collectors.toSet());
 
-            List<ProductVariant> allVariants = productVariantRepository.findAll();
-
-            variants.forEach(variant -> {
-                variant.setProduct(product);
-                String sku = SkuGenerator.generateSku(product.getName(), allVariants, variant.getSize(), variant.getColor());
-                variant.setSku(sku);
-            });
-
-            product.setVariants(variants);
+            product.setColors(colors);
         }
 
         Product savedProduct = productRepository.save(product);

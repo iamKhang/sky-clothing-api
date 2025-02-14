@@ -9,19 +9,20 @@ import org.springframework.stereotype.Component;
 import com.iamkhangg.skyclothingapi.dtos.product.ProductDetailDTO;
 import com.iamkhangg.skyclothingapi.dtos.product.ProductListDTO;
 import com.iamkhangg.skyclothingapi.entities.Product;
-import com.iamkhangg.skyclothingapi.entities.ProductVariant;
+import com.iamkhangg.skyclothingapi.entities.ProductSize;
 
 @Component
 public class ProductConverter {
 
     public static ProductListDTO toListDTO(Product product) {
-        BigDecimal maxDiscount = product.getVariants().stream()
-                .map(ProductVariant::getDiscountPercentage)
+        BigDecimal maxDiscount = product.getColors().stream()
+                .flatMap(color -> color.getSizes().stream())
+                .map(ProductSize::getDiscountPercentage)
                 .max(BigDecimal::compareTo)
                 .orElse(BigDecimal.ZERO);
 
-        Set<String> colors = product.getVariants().stream()
-                .map(variant -> variant.getColor().name())
+        Set<String> colors = product.getColors().stream()
+                .map(color -> color.getColor().name())
                 .collect(Collectors.toSet());
 
         return ProductListDTO.builder()
@@ -48,9 +49,9 @@ public class ProductConverter {
                 .category(product.getCategory().name())
                 .collectionId(product.getCollection() != null ? 
                     product.getCollection().getCollectionId() : null)
-                .variants(product.getVariants().stream()
-                    .map(ProductVariantConverter::toDTO)
-                    .collect(Collectors.toList()))
+                .colors(product.getColors().stream()
+                    .map(ProductColorConverter::toDTO)
+                    .collect(Collectors.toSet()))
                 .build();
     }
 }
